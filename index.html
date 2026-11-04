@@ -1,18 +1,22 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src data:; connect-src https://hzfkquhjizywtldeppvk.supabase.co; base-uri 'none'; form-action 'none'">
-<title>Licenças GigDriver</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://hzfkquhjizywtldeppvk.supabase.co; base-uri 'none'; form-action 'none'">
+<title>GigDriver Licences</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
 <style>
 :root{--bg:#f3f4f6;--card:#ffffff;--fg:#111418;--muted:#5d6572;--line:#d9dde3;--accent:#1d4ed8;--ok:#117a3c;--warn:#8a5a00;--bad:#b42318;--chip:#eceff3;color-scheme:light}
 @media (prefers-color-scheme: dark){:root{--bg:#0d1014;--card:#161b22;--fg:#e6eaf0;--muted:#97a0ad;--line:#2a313b;--accent:#6ea8ff;--ok:#4ade80;--warn:#e3b341;--bad:#ff8a80;--chip:#222a35;color-scheme:dark}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:560px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 32px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:560px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-right,0px)) 32px max(16px,env(safe-area-inset-left,0px))}
+.bar{display:flex;justify-content:flex-end;margin-bottom:6px}
 h1{font-size:20px;margin:0}
 h2{font-size:16px;margin:0 0 6px}
 p{margin:8px 0}
@@ -42,100 +46,241 @@ button:disabled{opacity:.5;cursor:default}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .actions button{font-size:13px;min-height:36px;padding:6px 10px}
 .qr{display:block;width:180px;height:180px;background:#fff;border-radius:8px;margin:8px 0}
+.lang{min-height:32px;font-size:13px;padding:4px 10px}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="bar"><button type="button" class="lang" id="b-lang">PT</button></div>
 
   <section id="v-login" class="card" hidden>
-    <h1>Entrar</h1>
-    <p class="muted">Painel de licenças. Use o e-mail e a senha da conta do dono.</p>
+    <h1 data-i18n="login_title">Sign in</h1>
+    <p class="muted" data-i18n="login_sub">Licence panel. Use the owner e-mail and password.</p>
     <form id="f-login">
-      <label for="l-email">E-mail</label>
+      <label for="l-email" data-i18n="email">E-mail</label>
       <input id="l-email" type="email" autocomplete="username" required>
-      <label for="l-pass">Senha</label>
+      <label for="l-pass" data-i18n="password">Password</label>
       <input id="l-pass" type="password" autocomplete="current-password" required>
-      <button class="primary" type="submit">Entrar</button>
+      <button class="primary" type="submit" data-i18n="sign_in">Sign in</button>
     </form>
     <div id="m-login" class="msg" role="status"></div>
   </section>
 
   <section id="v-mfa" class="card" hidden>
-    <h1>Código do autenticador</h1>
-    <p class="muted">Digite o código de 6 dígitos que aparece agora no seu app autenticador.</p>
+    <h1 data-i18n="mfa_title">Authenticator code</h1>
+    <p class="muted" data-i18n="mfa_sub">Enter the 6-digit code shown in your authenticator app right now.</p>
     <form id="f-mfa">
-      <label for="mfa-code">Código</label>
+      <label for="mfa-code" data-i18n="code">Code</label>
       <input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required>
-      <button class="primary" type="submit">Confirmar</button>
+      <button class="primary" type="submit" data-i18n="confirm">Confirm</button>
     </form>
     <div id="m-mfa" class="msg" role="status"></div>
-    <p><button type="button" id="b-logout1">Sair</button></p>
+    <p><button type="button" id="b-logout1" data-i18n="sign_out">Sign out</button></p>
   </section>
 
   <section id="v-enroll" class="card" hidden>
-    <h1>Ativar proteção em 2 etapas</h1>
-    <p class="muted">Primeira vez: abra o app autenticador (Google Authenticator, Microsoft Authenticator ou similar), escaneie o QR code abaixo e digite o código de 6 dígitos que ele mostrar.</p>
-    <img id="qr" class="qr" alt="QR code para o app autenticador">
-    <p class="muted">Se não conseguir escanear, digite esta chave no app:</p>
+    <h1 data-i18n="enroll_title">Set up 2-step protection</h1>
+    <p class="muted" data-i18n="enroll_sub">First time only: open an authenticator app (Google Authenticator, Microsoft Authenticator or similar), scan the QR code below and enter the 6-digit code it shows.</p>
+    <img id="qr" class="qr" data-i18n-alt="qr_alt" alt="QR code for the authenticator app">
+    <p class="muted" data-i18n="secret_sub">If you can't scan it, type this key in the app:</p>
     <p id="secret" class="code" style="user-select:all"></p>
     <form id="f-enroll">
-      <label for="en-code">Código de 6 dígitos</label>
+      <label for="en-code" data-i18n="code6">6-digit code</label>
       <input id="en-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required>
-      <button class="primary" type="submit">Ativar e entrar</button>
+      <button class="primary" type="submit" data-i18n="enroll_btn">Turn on and sign in</button>
     </form>
     <div id="m-enroll" class="msg" role="status"></div>
-    <p><button type="button" id="b-logout2">Sair</button></p>
+    <p><button type="button" id="b-logout2" data-i18n="sign_out">Sign out</button></p>
   </section>
 
   <section id="v-app" hidden>
-    <div class="top"><h1>Licenças</h1><button id="b-logout3" type="button">Sair</button></div>
+    <div class="top"><h1 data-i18n="app_title">Licences</h1><button id="b-logout3" type="button" data-i18n="sign_out">Sign out</button></div>
     <div class="card">
-      <h2>Adicionar ou renovar aparelho</h2>
+      <h2 data-i18n="add_title">Add or renew device</h2>
       <form id="f-add">
-        <label for="a-code">Código do aparelho</label>
+        <label for="a-code" data-i18n="device_code">Device code</label>
         <input id="a-code" class="code" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="40" required>
-        <label for="a-name">Nome (opcional)</label>
+        <label for="a-name" data-i18n="name_opt">Name (optional)</label>
         <input id="a-name" maxlength="60" autocomplete="off">
-        <label for="a-days">Dias de validade, a partir de hoje</label>
+        <label for="a-days" data-i18n="days_label">Days valid, from today</label>
         <input id="a-days" type="number" inputmode="numeric" min="1" max="3650" value="30" required>
-        <button class="primary" type="submit">Salvar licença</button>
+        <button class="primary" type="submit" data-i18n="save_btn">Save licence</button>
       </form>
-      <p class="muted">Se o aparelho já existir, a validade é trocada e ele é desbloqueado.</p>
+      <p class="muted" data-i18n="add_note">If the device already exists, its expiry is replaced and it is unblocked.</p>
       <div id="m-add" class="msg" role="status"></div>
     </div>
     <div class="card">
-      <div class="row"><h2 style="margin:0">Aparelhos</h2><span id="count" class="muted"></span></div>
-      <label for="q">Buscar por nome ou código</label>
+      <div class="row"><h2 style="margin:0" data-i18n="devices">Devices</h2><span id="count" class="muted"></span></div>
+      <label for="q" data-i18n="search_label">Search by name or code</label>
       <input id="q" type="search" autocomplete="off">
       <div id="list" style="margin-top:6px"></div>
       <div id="m-list" class="msg" role="status"></div>
     </div>
   </section>
-
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function () {
   'use strict';
-  if (!window.supabase) {
-    document.getElementById('v-login').hidden = false;
-    document.getElementById('m-login').textContent = 'Não carregou o componente de login. Verifique a internet e atualize a página.';
-    document.getElementById('m-login').className = 'msg err';
-    return;
+
+  // Registra o service worker, que o Chrome exige para oferecer a instalação na tela inicial.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
   }
 
-  var client = window.supabase.createClient(
-    'https://hzfkquhjizywtldeppvk.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6ZmtxdWhqaXp5d3RsZGVwcHZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NDUxODQsImV4cCI6MjEwOTEyMTE4NH0.96mv2An2TpVXH0FRChX2Tqt7R9pyOkiVAZugDVT3UrE',
-    { auth: { persistSession: true, autoRefreshToken: true } }
-  );
-  var IDLE_MS = 15 * 60 * 1000;
+  var I18N = {
+    en: {
+      title: 'GigDriver Licences',
+      login_title: 'Sign in',
+      login_sub: 'Licence panel. Use the owner e-mail and password.',
+      email: 'E-mail',
+      password: 'Password',
+      sign_in: 'Sign in',
+      signing_in: 'Signing in...',
+      mfa_title: 'Authenticator code',
+      mfa_sub: 'Enter the 6-digit code shown in your authenticator app right now.',
+      code: 'Code',
+      code6: '6-digit code',
+      confirm: 'Confirm',
+      sign_out: 'Sign out',
+      enroll_title: 'Set up 2-step protection',
+      enroll_sub: 'First time only: open an authenticator app (Google Authenticator, Microsoft Authenticator or similar), scan the QR code below and enter the 6-digit code it shows.',
+      qr_alt: 'QR code for the authenticator app',
+      secret_sub: "If you can't scan it, type this key in the app:",
+      enroll_btn: 'Turn on and sign in',
+      app_title: 'Licences',
+      add_title: 'Add or renew device',
+      device_code: 'Device code',
+      name_opt: 'Name (optional)',
+      days_label: 'Days valid, from today',
+      save_btn: 'Save licence',
+      add_note: 'If the device already exists, its expiry is replaced and it is unblocked.',
+      devices: 'Devices',
+      search_label: 'Search by name or code',
+      count_one: 'device',
+      count_many: 'devices',
+      none_yet: 'No devices yet. Add the first one above.',
+      no_results: 'No results for this search.',
+      badge_blocked: 'Blocked',
+      badge_paid: 'Paid',
+      badge_expired: 'Expired',
+      badge_active: 'Active',
+      no_name: 'No name',
+      expired_on: 'Expired on ',
+      expires_on: 'Expires on ',
+      btn_plus30: '+30 days',
+      btn_block: 'Block',
+      btn_unblock: 'Unblock',
+      btn_mark_paid: 'Mark paid',
+      btn_unmark_paid: 'Unmark paid',
+      btn_delete: 'Delete',
+      btn_delete_confirm: 'Tap again to delete',
+      saving: 'Saving...',
+      saved_until: 'Saved: {code}, valid until {date}.',
+      extended_until: 'Expiry extended to {date}.',
+      blocked_ok: 'Device blocked.',
+      unblocked_ok: 'Device unblocked.',
+      paid_ok: 'Marked as paid.',
+      unpaid_ok: 'Marked as not paid.',
+      deleted_ok: 'Device deleted.',
+      invalid_code: 'Invalid code. Use letters, numbers and dashes, 6 to 40 characters.',
+      invalid_days: 'Days must be between 1 and 3650.',
+      digits_only: 'Enter the 6 digits from the app.',
+      verifying: 'Checking...',
+      wrong_code: 'Wrong or expired code. Wait for the next code in the app and try again.',
+      bad_login: 'Wrong e-mail or password.',
+      too_many: 'Too many attempts. Wait a few minutes.',
+      no_network: 'No connection to the server. Check your internet.',
+      generic_error: 'Something went wrong: ',
+      no_rows: 'No row was changed. Check that you are still signed in.',
+      component_fail: 'The login part did not load. Check your internet and refresh the page.'
+    },
+    pt: {
+      title: 'Licenças GigDriver',
+      login_title: 'Entrar',
+      login_sub: 'Painel de licenças. Use o e-mail e a senha do dono.',
+      email: 'E-mail',
+      password: 'Senha',
+      sign_in: 'Entrar',
+      signing_in: 'Entrando...',
+      mfa_title: 'Código do autenticador',
+      mfa_sub: 'Digite o código de 6 dígitos que aparece agora no seu app autenticador.',
+      code: 'Código',
+      code6: 'Código de 6 dígitos',
+      confirm: 'Confirmar',
+      sign_out: 'Sair',
+      enroll_title: 'Ativar proteção em 2 etapas',
+      enroll_sub: 'Só na primeira vez: abra um app autenticador (Google Authenticator, Microsoft Authenticator ou similar), escaneie o QR code abaixo e digite o código de 6 dígitos que ele mostrar.',
+      qr_alt: 'QR code para o app autenticador',
+      secret_sub: 'Se não conseguir escanear, digite esta chave no app:',
+      enroll_btn: 'Ativar e entrar',
+      app_title: 'Licenças',
+      add_title: 'Adicionar ou renovar aparelho',
+      device_code: 'Código do aparelho',
+      name_opt: 'Nome (opcional)',
+      days_label: 'Dias de validade, a partir de hoje',
+      save_btn: 'Salvar licença',
+      add_note: 'Se o aparelho já existir, a validade é trocada e ele é desbloqueado.',
+      devices: 'Aparelhos',
+      search_label: 'Buscar por nome ou código',
+      count_one: 'aparelho',
+      count_many: 'aparelhos',
+      none_yet: 'Nenhum aparelho ainda. Adicione o primeiro acima.',
+      no_results: 'Nenhum resultado para essa busca.',
+      badge_blocked: 'Bloqueado',
+      badge_paid: 'Pago',
+      badge_expired: 'Vencido',
+      badge_active: 'Ativo',
+      no_name: 'Sem nome',
+      expired_on: 'Venceu em ',
+      expires_on: 'Vence em ',
+      btn_plus30: '+30 dias',
+      btn_block: 'Bloquear',
+      btn_unblock: 'Desbloquear',
+      btn_mark_paid: 'Marcar pago',
+      btn_unmark_paid: 'Tirar pago',
+      btn_delete: 'Apagar',
+      btn_delete_confirm: 'Toque de novo para apagar',
+      saving: 'Salvando...',
+      saved_until: 'Salvo: {code}, válido até {date}.',
+      extended_until: 'Validade estendida até {date}.',
+      blocked_ok: 'Aparelho bloqueado.',
+      unblocked_ok: 'Aparelho desbloqueado.',
+      paid_ok: 'Marcado como pago.',
+      unpaid_ok: 'Marcado como não pago.',
+      deleted_ok: 'Aparelho apagado.',
+      invalid_code: 'Código inválido. Use letras, números e traço, de 6 a 40 caracteres.',
+      invalid_days: 'Os dias precisam ser entre 1 e 3650.',
+      digits_only: 'Digite os 6 números do app.',
+      verifying: 'Confirmando...',
+      wrong_code: 'Código incorreto ou expirado. Espere o próximo código do app e tente de novo.',
+      bad_login: 'E-mail ou senha incorretos.',
+      too_many: 'Muitas tentativas. Espere alguns minutos.',
+      no_network: 'Sem conexão com o servidor. Verifique a internet.',
+      generic_error: 'Algo deu errado: ',
+      no_rows: 'Nenhuma linha foi alterada. Confira se você continua logado.',
+      component_fail: 'A parte de login não carregou. Verifique a internet e atualize a página.'
+    }
+  };
+
+  var lang = 'en';
+  try { lang = localStorage.getItem('gd_lang') === 'pt' ? 'pt' : 'en'; } catch (e) {}
   var factorId = null;
   var rows = [];
   var busy = false;
   var lastAct = Date.now();
+  var IDLE_MS = 15 * 60 * 1000;
 
   function $(id) { return document.getElementById(id); }
+  function t(k) {
+    var d = I18N[lang];
+    return (d && d[k] != null) ? d[k] : I18N.en[k];
+  }
+  function tf(k, vars) {
+    var s = t(k);
+    Object.keys(vars).forEach(function (n) { s = s.split('{' + n + '}').join(vars[n]); });
+    return s;
+  }
   function el(tag, text, cls) {
     var e = document.createElement(tag);
     if (text != null) e.textContent = text;
@@ -157,23 +302,53 @@ button:disabled{opacity:.5;cursor:default}
   }
   function explain(err) {
     var m = String((err && err.message) || err || '');
-    if (/invalid login|invalid credentials/i.test(m)) return 'E-mail ou senha incorretos.';
-    if (/rate limit|too many|over_request/i.test(m)) return 'Muitas tentativas. Espere alguns minutos.';
-    if (/totp|invalid code|mfa/i.test(m)) return 'Código incorreto ou expirado. Espere o próximo código do app.';
-    if (/failed to fetch|network/i.test(m)) return 'Sem conexão com o servidor. Verifique a internet.';
-    return 'Algo deu errado: ' + m;
+    if (/invalid login|invalid credentials/i.test(m)) return t('bad_login');
+    if (/rate limit|too many|over_request/i.test(m)) return t('too_many');
+    if (/totp|invalid code|mfa/i.test(m)) return t('wrong_code');
+    if (/failed to fetch|network/i.test(m)) return t('no_network');
+    return t('generic_error') + m;
   }
 
-  // Sai sozinho depois de 15 minutos sem uso, para não deixar o painel aberto no celular.
+  function applyLang() {
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    document.title = t('title');
+    document.querySelectorAll('[data-i18n]').forEach(function (n) {
+      n.textContent = t(n.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (n) {
+      n.alt = t(n.getAttribute('data-i18n-alt'));
+    });
+    $('b-lang').textContent = lang === 'pt' ? 'EN' : 'PT';
+    if (!$('v-app').hidden) draw();
+  }
+  $('b-lang').addEventListener('click', function () {
+    lang = lang === 'pt' ? 'en' : 'pt';
+    try { localStorage.setItem('gd_lang', lang); } catch (e) {}
+    applyLang();
+  });
+
+  // Signs out by itself after 15 minutes without use.
   ['click', 'keydown', 'touchstart'].forEach(function (ev) {
     document.addEventListener(ev, function () { lastAct = Date.now(); }, { passive: true });
   });
   setInterval(function () {
     if (Date.now() - lastAct < IDLE_MS) return;
-    client.auth.getSession().then(function (r) {
-      if (r.data && r.data.session) return client.auth.signOut().then(function () { location.reload(); });
-    });
+    if (client && !$('v-app').hidden) client.auth.signOut().then(function () { location.reload(); });
   }, 30000);
+
+  applyLang();
+
+  if (!window.supabase) {
+    view('login');
+    say('m-login', t('component_fail'), 'err');
+    return;
+  }
+
+  var client = window.supabase.createClient(
+    'https://hzfkquhjizywtldeppvk.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6ZmtxdWhqaXp5d3RsZGVwcHZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NDUxODQsImV4cCI6MjEwOTEyMTE4NH0.96mv2An2TpVXH0FRChX2Tqt7R9pyOkiVAZugDVT3UrE',
+    { auth: { persistSession: true, autoRefreshToken: true } }
+  );
 
   function route() {
     return client.auth.mfa.getAuthenticatorAssuranceLevel().then(function (r) {
@@ -198,7 +373,7 @@ button:disabled{opacity:.5;cursor:default}
       var old = ((f.data && f.data.totp) || []).filter(function (x) { return x.status !== 'verified'; });
       return Promise.all(old.map(function (x) { return client.auth.mfa.unenroll({ factorId: x.id }); }));
     }).then(function () {
-      return client.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Painel GigDriver' });
+      return client.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'GigDriver Licences' });
     }).then(function (e) {
       if (e.error) throw e.error;
       factorId = e.data.id;
@@ -211,10 +386,10 @@ button:disabled{opacity:.5;cursor:default}
 
   function verify(input, msgId) {
     var code = input.value.split(' ').join('');
-    if (!/^[0-9]{6}$/.test(code)) { say(msgId, 'Digite os 6 números do app.', 'err'); return; }
+    if (!/^[0-9]{6}$/.test(code)) { say(msgId, t('digits_only'), 'err'); return; }
     if (busy) return;
     busy = true;
-    say(msgId, 'Confirmando...');
+    say(msgId, t('verifying'));
     client.auth.mfa.challengeAndVerify({ factorId: factorId, code: code }).then(function (r) {
       input.value = '';
       if (r.error) throw r.error;
@@ -242,11 +417,11 @@ button:disabled{opacity:.5;cursor:default}
       });
   }
 
-  function status(r, t) {
-    if (r.blocked) return { text: 'Bloqueado', cls: 'b-bad' };
-    if (r.paid) return { text: 'Pago', cls: 'b-ok' };
-    if (r.expires_on < t) return { text: 'Vencido', cls: 'b-warn' };
-    return { text: 'Ativo', cls: 'b-ok' };
+  function status(r, tday) {
+    if (r.blocked) return { text: t('badge_blocked'), cls: 'b-bad' };
+    if (r.paid) return { text: t('badge_paid'), cls: 'b-ok' };
+    if (r.expires_on < tday) return { text: t('badge_expired'), cls: 'b-warn' };
+    return { text: t('badge_active'), cls: 'b-ok' };
   }
 
   function btn(label, fn) {
@@ -257,24 +432,24 @@ button:disabled{opacity:.5;cursor:default}
   }
 
   function deleteBtn(r) {
-    var b = el('button', 'Apagar', 'danger');
+    var b = el('button', t('btn_delete'), 'danger');
     b.type = 'button';
     var timer = null;
     b.addEventListener('click', function () {
       if (busy) return;
       if (!b.classList.contains('armed')) {
         b.classList.add('armed');
-        b.textContent = 'Toque de novo para apagar';
+        b.textContent = t('btn_delete_confirm');
         timer = setTimeout(function () {
           b.classList.remove('armed');
-          b.textContent = 'Apagar';
+          b.textContent = t('btn_delete');
         }, 4000);
         return;
       }
       clearTimeout(timer);
       run(function () {
         return client.from('licences').delete().eq('device_code', r.device_code).select('device_code');
-      }, 'Aparelho apagado.');
+      }, t('deleted_ok'));
     });
     return b;
   }
@@ -282,10 +457,10 @@ button:disabled{opacity:.5;cursor:default}
   function run(make, okText) {
     if (busy) return;
     busy = true;
-    say('m-list', 'Salvando...');
+    say('m-list', t('saving'));
     return make().then(function (r) {
       if (r.error) throw r.error;
-      if (!r.data || !r.data.length) throw new Error('Nenhuma linha foi alterada. Verifique se a sessão está ativa.');
+      if (!r.data || !r.data.length) throw new Error(t('no_rows'));
       say('m-list', okText, 'ok');
       return loadList();
     }).catch(function (err) {
@@ -301,7 +476,7 @@ button:disabled{opacity:.5;cursor:default}
         .update({ expires_on: nue, updated_at: new Date().toISOString() })
         .eq('device_code', r.device_code)
         .select('device_code');
-    }, 'Validade estendida até ' + br(nue) + '.');
+    }, tf('extended_until', { date: br(nue) }));
   }
 
   function setField(r, patch, okText) {
@@ -311,22 +486,22 @@ button:disabled{opacity:.5;cursor:default}
     }, okText);
   }
 
-  function card(r, t) {
-    var st = status(r, t);
+  function card(r, tday) {
+    var st = status(r, tday);
     var item = el('div', null, 'item');
     var top = el('div', null, 'row');
-    top.appendChild(el('div', r.name || 'Sem nome', 'name'));
+    top.appendChild(el('div', r.name || t('no_name'), 'name'));
     top.appendChild(el('span', st.text, 'badge ' + st.cls));
     item.appendChild(top);
     item.appendChild(el('div', r.device_code, 'code'));
-    item.appendChild(el('div', (r.expires_on < t ? 'Venceu em ' : 'Vence em ') + br(r.expires_on), 'muted'));
+    item.appendChild(el('div', (r.expires_on < tday ? t('expired_on') : t('expires_on')) + br(r.expires_on), 'muted'));
     var acts = el('div', null, 'actions');
-    acts.appendChild(btn('+30 dias', function () { extend(r); }));
-    acts.appendChild(btn(r.blocked ? 'Desbloquear' : 'Bloquear', function () {
-      setField(r, { blocked: !r.blocked }, r.blocked ? 'Aparelho desbloqueado.' : 'Aparelho bloqueado.');
+    acts.appendChild(btn(t('btn_plus30'), function () { extend(r); }));
+    acts.appendChild(btn(r.blocked ? t('btn_unblock') : t('btn_block'), function () {
+      setField(r, { blocked: !r.blocked }, r.blocked ? t('unblocked_ok') : t('blocked_ok'));
     }));
-    acts.appendChild(btn(r.paid ? 'Tirar pago' : 'Marcar pago', function () {
-      setField(r, { paid: !r.paid }, r.paid ? 'Marcado como não pago.' : 'Marcado como pago.');
+    acts.appendChild(btn(r.paid ? t('btn_unmark_paid') : t('btn_mark_paid'), function () {
+      setField(r, { paid: !r.paid }, r.paid ? t('unpaid_ok') : t('paid_ok'));
     }));
     acts.appendChild(deleteBtn(r));
     item.appendChild(acts);
@@ -335,19 +510,19 @@ button:disabled{opacity:.5;cursor:default}
 
   function draw() {
     var q = $('q').value.trim().toLowerCase();
-    var t = today();
+    var tday = today();
     var list = $('list');
     list.textContent = '';
     var shown = rows.filter(function (r) {
       if (!q) return true;
       return r.device_code.toLowerCase().indexOf(q) >= 0 || (r.name || '').toLowerCase().indexOf(q) >= 0;
     });
-    $('count').textContent = rows.length + (rows.length === 1 ? ' aparelho' : ' aparelhos');
+    $('count').textContent = rows.length + ' ' + (rows.length === 1 ? t('count_one') : t('count_many'));
     if (!shown.length) {
-      list.appendChild(el('p', rows.length ? 'Nenhum resultado para essa busca.' : 'Nenhum aparelho ainda. Adicione o primeiro acima.', 'muted'));
+      list.appendChild(el('p', rows.length ? t('no_results') : t('none_yet'), 'muted'));
       return;
     }
-    shown.forEach(function (r) { list.appendChild(card(r, t)); });
+    shown.forEach(function (r) { list.appendChild(card(r, tday)); });
   }
 
   $('q').addEventListener('input', draw);
@@ -358,18 +533,18 @@ button:disabled{opacity:.5;cursor:default}
     var code = $('a-code').value.trim().toUpperCase();
     var name = $('a-name').value.trim();
     var days = parseInt($('a-days').value, 10);
-    if (!/^[A-Z0-9-]{6,40}$/.test(code)) { say('m-add', 'Código inválido. Use letras, números e traço, de 6 a 40 caracteres.', 'err'); return; }
-    if (!(days >= 1 && days <= 3650)) { say('m-add', 'Os dias precisam ser entre 1 e 3650.', 'err'); return; }
+    if (!/^[A-Z0-9-]{6,40}$/.test(code)) { say('m-add', t('invalid_code'), 'err'); return; }
+    if (!(days >= 1 && days <= 3650)) { say('m-add', t('invalid_days'), 'err'); return; }
     var payload = { device_code: code, expires_on: addDays(today(), days), blocked: false, updated_at: new Date().toISOString() };
     if (name) payload.name = name;
     busy = true;
-    say('m-add', 'Salvando...');
+    say('m-add', t('saving'));
     client.from('licences').upsert(payload, { onConflict: 'device_code' }).select('device_code').then(function (r) {
       if (r.error) throw r.error;
-      if (!r.data || !r.data.length) throw new Error('Nenhuma linha foi salva. Verifique se a sessão está ativa.');
+      if (!r.data || !r.data.length) throw new Error(t('no_rows'));
       $('a-code').value = '';
       $('a-name').value = '';
-      say('m-add', 'Salvo: ' + code + ', válido até ' + br(payload.expires_on) + '.', 'ok');
+      say('m-add', tf('saved_until', { code: code, date: br(payload.expires_on) }), 'ok');
       return loadList();
     }).catch(function (err) {
       say('m-add', explain(err), 'err');
@@ -380,7 +555,7 @@ button:disabled{opacity:.5;cursor:default}
     e.preventDefault();
     if (busy) return;
     busy = true;
-    say('m-login', 'Entrando...');
+    say('m-login', t('signing_in'));
     client.auth.signInWithPassword({ email: $('l-email').value.trim(), password: $('l-pass').value }).then(function (r) {
       $('l-pass').value = '';
       if (r.error) throw r.error;
